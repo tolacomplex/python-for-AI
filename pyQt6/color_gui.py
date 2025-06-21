@@ -116,10 +116,10 @@ class ColorMatchingWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("CSP Color Matching Game")
-        self.setGeometry(100, 100, 600, 600)
+        self.setGeometry(100, 100, 900, 900)
         self.setWindowIcon(QIcon("icon.png"))
 
-        self.size = 3
+        self.size = 5
         self.colors = []
         self.init_colors = []
         self.user_grid = []
@@ -296,11 +296,11 @@ class AdminDialog(QDialog):
         form.addRow("Colors (comma-separated):", self.colors_input)
         layout.addLayout(form)
 
-        self.init_grid = QTableWidget(3, 3)
+        self.init_grid = QTableWidget(5, 5)
         self.init_grid.setHorizontalHeaderLabels(["0", "1", "2"])
         self.init_grid.setVerticalHeaderLabels(["0", "1", "2"])
-        for i in range(3):
-            for j in range(3):
+        for i in range(5):
+            for j in range(5):
                 combo = QComboBox()
                 combo.addItems(colors)
                 self.init_grid.setCellWidget(i, j, combo)
