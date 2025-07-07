@@ -1,12 +1,13 @@
-from PyQt6.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QLineEdit, QVBoxLayout, QTextEdit, QFileDialog 
+from PyQt6.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QLineEdit, QHBoxLayout, QVBoxLayout, QTextEdit, QFileDialog 
 import sys 
 from PyQt6.QtGui import QFont
+from PyQt6.QtCore import Qt
 
 class ChatbotApp(QMainWindow):
   def __init__(self):
     super().__init__()
     self.setWindowTitle("Chatbot App Assistant")
-    self.setGeometry(100, 100, 800, 700)
+    self.setGeometry(100, 100, 700, 700)
     
     page_widget = QWidget()
     self.setCentralWidget(page_widget)
@@ -19,36 +20,45 @@ class ChatbotApp(QMainWindow):
     # Button open file and folder
     self.upload_file_button = QPushButton("+")
     self.upload_file_button.setStyleSheet("QPushButton {border-radius: 10px; background-color: blue; color: white;}")
-    self.upload_file_button.setFixedSize(100, 40)
+    self.upload_file_button.setFixedSize(80, 30)
     self.upload_file_button.setFont(QFont("Arial", 40))
     self.upload_file_button.clicked.connect(self.open_file_dialog)
     
+    # Button Input text
     self.input_text = QLineEdit()
-    self.input_text.setFixedSize(300, 40)
-    self.input_text.setStyleSheet("QLineEdit {border-radius: 10px; color: white;}")
+    self.input_text.setFixedSize(400, 40)
+    self.input_text.setPlaceholderText("Write Somthing")
+    self.input_text.setAlignment(Qt.AlignmentFlag.AlignCenter)
+    self.input_text.setStyleSheet("QLineEdit {border-radius: 20px; color: white;}")
     
     # Button send text to chatbot
     self.send_button = QPushButton("Send")
     self.send_button.setStyleSheet("QPushButton {border-radius: 10px; background-color: blue; color: white;}")
-    self.send_button.setFixedSize(100, 40)
+    self.send_button.setFixedSize(90, 30)
     self.send_button.clicked.connect(self.send_message)
     
-    layout.addWidget(self.upload_file_button)
-    layout.addWidget(self.input_text)
-    layout.addWidget(self.send_button)
+    h_layout = QHBoxLayout()
+    h_layout.addWidget(self.upload_file_button)
+    h_layout.addWidget(self.input_text)
+    h_layout.addWidget(self.send_button)
+    
+    layout.addLayout(h_layout)
     
     
-  # Upload file in computer 
+  # Upload file from computer 
   def open_file_dialog(self):
     file_name, _ = QFileDialog.getOpenFileName(self, 'Select File', '', 'All Files (*);;Text Files (*.txt);;Image Files (*.png *.jpg *.jpeg)')
     if file_name:
         self.file_path_label.setText(f'Selected file: {file_name}')
+        with open(file_name, "r") as file :
+          image = file.read()
+          print(f"{image} is the image")
   
   # Response model chatBot
   def response_chatbot(self, message):
     message = message.lower()
-    if "hello" in message:
-        return "Hi there!"
+    if "hello" or "hi" in message:
+        return "Hello 👋 user. How can I help you?"
     elif "how are you" in message:
         return "I'm a computer program, so I don't have feelings, but thanks for asking!"
     elif "weather" in message:
