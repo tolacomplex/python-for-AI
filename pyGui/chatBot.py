@@ -1,14 +1,14 @@
-from PyQt6.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QLineEdit, QHBoxLayout, QVBoxLayout, QTextEdit, QFileDialog 
+from PyQt6.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QLineEdit, QLabel, QHBoxLayout, QVBoxLayout, QTextEdit, QFileDialog 
 import sys 
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
+from datetime import time
 
 class ChatbotApp(QMainWindow):
   def __init__(self):
     super().__init__()
     self.setWindowTitle("Chatbot App Assistant")
     self.setGeometry(100, 100, 700, 700)
-    
     page_widget = QWidget()
     self.setCentralWidget(page_widget)
     layout = QVBoxLayout(page_widget)
@@ -17,24 +17,29 @@ class ChatbotApp(QMainWindow):
     self.output_display.setReadOnly(True)
     layout.addWidget(self.output_display)
     
+    self.file_path_label = QLabel("No file selected")
+    self.file_path_label.setStyleSheet("color: gray;")
+    layout.addWidget(self.file_path_label)
+    
     # Button open file and folder
     self.upload_file_button = QPushButton("+")
     self.upload_file_button.setStyleSheet("QPushButton {border-radius: 10px; background-color: blue; color: white;}")
-    self.upload_file_button.setFixedSize(80, 30)
+    self.upload_file_button.setFixedSize(32, 32)
     self.upload_file_button.setFont(QFont("Arial", 40))
     self.upload_file_button.clicked.connect(self.open_file_dialog)
     
     # Button Input text
     self.input_text = QLineEdit()
-    self.input_text.setFixedSize(400, 40)
-    self.input_text.setPlaceholderText("Write Somthing")
+    self.input_text.setFixedSize(500, 40)
+    self.input_text.setPlaceholderText("Type something…")
     self.input_text.setAlignment(Qt.AlignmentFlag.AlignCenter)
-    self.input_text.setStyleSheet("QLineEdit {border-radius: 20px; color: white;}")
+    self.input_text.setStyleSheet("QLineEdit {border-radius: 20px; color: black; background: white}")
     
     # Button send text to chatbot
     self.send_button = QPushButton("Send")
     self.send_button.setStyleSheet("QPushButton {border-radius: 10px; background-color: blue; color: white;}")
-    self.send_button.setFixedSize(90, 30)
+    self.send_button.setFixedSize(70, 30)
+    self.send_button.setFixedHeight(32)
     self.send_button.clicked.connect(self.send_message)
     
     h_layout = QHBoxLayout()
@@ -47,20 +52,23 @@ class ChatbotApp(QMainWindow):
     
   # Upload file from computer 
   def open_file_dialog(self):
-    file_name, _ = QFileDialog.getOpenFileName(self, 'Select File', '', 'All Files (*);;Text Files (*.txt);;Image Files (*.png *.jpg *.jpeg)')
+    file_name, _ = QFileDialog.getOpenFileName(
+            self,
+            "Select File",
+            "",
+            "All Files (*);;Text Files (*.txt);;Image Files (*.png *.jpg *.jpeg)"
+        )
     if file_name:
-        self.file_path_label.setText(f'Selected file: {file_name}')
-        with open(file_name, "r") as file :
-          image = file.read()
-          print(f"{image} is the image")
-  
+        self.file_path_label.setText(f"Selected file: {file_name}")
+
+        
   # Response model chatBot
-  def response_chatbot(self, message):
+  def response_chatbot(self, message) -> str:
     message = message.lower()
-    if "hello" or "hi" in message:
-        return "Hello 👋 user. How can I help you?"
-    elif "how are you" in message:
-        return "I'm a computer program, so I don't have feelings, but thanks for asking!"
+    if "hello" in message or "hi" in message:
+        return "hello 👋 user. How can I help you?"
+    elif "what is norton university and when was it founded" in message:
+        return "Norton University (NU) is a private university located in Phnom Penh, Cambodia.\n It was established in December 1996 by Professor Chan Sok Khieng and officially recognized as a university in September 19."
     elif "weather" in message:
         return "I cannot provide real-time weather information."
     else:
