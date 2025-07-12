@@ -1,11 +1,11 @@
+# from PyQt6.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QLineEdit,
+#                              QWidget, QTextEdit, QTextBrowser, QTableView, QMessageBox, QTabWidget, QGroupBox, QFormLayout, QComboBox, 
+#                              QHeaderView, QFrame, QSplitter, QAbstractItemView, QDialog, QDialogButtonBox, )
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
-
 import sqlite3 
 import sys 
-
-
 
 class FontManager:
   """Manager Khmer OS Siemreap font for the application - Single font size 11"""
@@ -88,7 +88,7 @@ class DictionaryTableModel(QAbstractTableModel):
   """Table model for dictionary entires with full CRUD support"""
   
   def __init__(self, data=None):
-    super.__init__()
+    super().__init__()
     self.headers = ["ID", "English", "Khmer", "Type", "Definition", "Example"]
     self._data = data or []
     
@@ -191,7 +191,7 @@ class DictionaryDatabase:
       ]
       
       cursor.executemany(''' 
-            INSET INTO dictionary (english_word, khmer_word, word_type, definition, example_setence)
+            INSERT INTO dictionary (english_word, khmer_word, word_type, definition, example_sentence)
             VALUES (?, ?, ?, ?, ?)
       ''', sample_data)
       
@@ -362,7 +362,7 @@ class WordDetailDialog(QDialog):
       
       self.setLayout(layout)
       
-class TranslateWidget(QWidget):
+class TranslatorWidget(QWidget):
   word_searched = pyqtSignal(str, str)
   
   def __init__(self, db, font_manager):
@@ -392,7 +392,7 @@ class TranslateWidget(QWidget):
     
     title_layout.addWidget(title)
     title_layout.addWidget(subtitle)
-    title_frame.addWidget(title_layout)
+    title_frame.setLayout(title_layout)
     layout.addWidget(title_frame)
     
     # Search section
@@ -658,7 +658,7 @@ class DictionaryManagerWidget(QWidget):
     form_group_layout.addLayout(button_layout)
     form_group.setLayout(form_group_layout)
     form_layout.addWidget(form_group)
-    form_widget.addWidget(form_layout)
+    form_widget.setLayout(form_layout)
     # Table section for READ/UPDATE/DELETE operation
     table_widget = QWidget()
     table_layout = QVBoxLayout()
@@ -694,7 +694,7 @@ class DictionaryManagerWidget(QWidget):
     # Configure headers 
     headers = self.table_view.horizontalHeader()
     headers.setStretchLastSection(True)
-    headers.setSelectionMode(QHeaderView.ResizeMode.Interactive)
+    headers.setSectionResizeMode(QHeaderView.ResizeMode.Interactive)
     self.font_manager.apply_font(headers, bold=True)
     
     # CRUD action buttons
@@ -725,7 +725,7 @@ class DictionaryManagerWidget(QWidget):
     table_button_layout.addWidget(self.stats_label)
     
     table_group_layout.addLayout(filter_layout)
-    table_group_layout.addLayout(self.table_view)
+    table_group_layout.addWidget(self.table_view)
     table_group_layout.addLayout(table_button_layout)
     
     table_group.setLayout(table_group_layout)
@@ -1161,7 +1161,7 @@ class KhmerEnglishDictionaryApp(QMainWindow):
     self.font_manager.apply_font(self.tab_widget)
     
     # Create table with CRUD functionality
-    self.translator_tab = TranslateWidget(self.db, self.font_manager)
+    self.translator_tab = TranslatorWidget(self.db, self.font_manager)
     self.manager_tab = DictionaryManagerWidget(self.db, self.font_manager)
     self.stats_tab = StatisticsWidget(self.db, self.font_manager)
     
@@ -1182,9 +1182,45 @@ class KhmerEnglishDictionaryApp(QMainWindow):
   def connect_signals(self):
     """Connect signals between widgets"""
     self.translator_tab.word_searched.connect(
-      lambda word, search_type: self.stats
+      lambda word, search_type: self.stats_tab.increment_search_count()
     ) 
     
+    self.manager_tab.word_added.connect(
+      lambda word: self.statusBar().showMessage(f"✅ Created word: {word}")
+    )
+    
+    self.manager_tab.word_updated.connect(
+      lambda word_id: self.statusBar().showMessage(f"✅ Updated word ID: {word_id}")
+    )
+    self.manager_tab.word_deleted.connect(
+      lambda word_id: self.statusBar().showMessage(f"✅  Deleted word ID: {word_id}")
+      
+    )
+    
+def main():
+  app = QApplication(sys.argv)
+  
+  # Create font manager and set application-wide font
+  font_manager = FontManager()
+  app.setFont(font_manager.get_font())
+  
+  app.setApplicationName("Khmer-English Dictionary")
+  app.setApplicationVersion("1.0")
+  app.setOrganizationName("Student Learning Tools")
+  
+  try:
+    window = KhmerEnglishDictionaryApp()
+    window.show()
+    sys.exit(app.exec())
+  except Exception as e:
+    print(f"❌ Error starting application: {e}")
+    import traceback
+    traceback.print_exc()
+    sys.exit(1)
+
+if __name__ == "__main__":
+  main();
+      
             
         
     
