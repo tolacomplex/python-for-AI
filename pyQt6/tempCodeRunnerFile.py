@@ -1,0 +1,1 @@
+self.send_button.setEnabled(bool(self.text_input.text().strip()))
