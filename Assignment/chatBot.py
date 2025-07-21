@@ -71,11 +71,20 @@ class ChatbotApp(QMainWindow):
     if "hello" in message or "hi" in message:
         return "hello 👋 user. How can I help you?"
     elif "what is norton university and when was it founded" in message:
-        return "Norton University (NU) is a private university located in Phnom Penh, Cambodia.\n It was established in December 1996 by Professor Chan Sok Khieng and officially recognized as a university in September 19."
-    elif "weather" in message:
-        return "I cannot provide real-time weather information."
+        return '''
+            Norton University (NU) is a private university located in Phnom Penh, Cambodia.\n
+            It was established in December 1996 by Professor Chan Sok Khieng and officially recognized as a university in September 19.
+        '''
+    elif "what is its vision and mission at norton school" in message:
+        return '''
+            Answer:\n
+            Vision: To become an internationally respected higher education institution, producing\n
+            competitive professionals who contribute to Cambodia’s social and economic development and the international community ().\n
+            Mission: Norton aims to develop graduates who are entrepreneurial, professionally competitive, creative thinkers, value higher\n
+            learning, and promote peace, justice, and development ().
+        '''
     else:
-        return "I'm not sure how to respond to that."
+        return '''what is its vision and mission at norton school'''
     
     
   def send_message(self):
