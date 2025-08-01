@@ -83,6 +83,11 @@ class ChatbotApp(QMainWindow):
             Mission: Norton aims to develop graduates who are entrepreneurial, professionally competitive, creative thinkers, value higher\n
             learning, and promote peace, justice, and development ().
         '''
+    
+    elif "who is founder of norton university" in message:
+      return '''Norton University is the first private university in Cambodia, established on December 2, 1996 by Professor Chan'''
+    
+    
     else:
         return '''what is its vision and mission at norton school'''
     
