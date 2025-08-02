@@ -2936,6 +2936,10 @@ class KhmerEnglishDictionaryApp(QMainWindow):
     self.manager_tab = DictionaryManagerWidget(self.db, self.font_manager, self.ai_generator)
     self.stats_tab = StatisticsWidget(self.db, self.font_manager, self.user_profile)
     
+    self.tab_widget.addTab(self.translator_tab, "Translator")
+    self.tab_widget.addTab(self.manager_tab, "Dictionary Manager")
+    self.tab_widget.addTab(self.stats_tab, "Statistics")
+    
     layout.addWidget(self.tab_widget)
     
     # Standard bar with Khmer font
