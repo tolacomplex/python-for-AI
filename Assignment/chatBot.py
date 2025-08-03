@@ -55,50 +55,66 @@ class ChatbotApp(QMainWindow):
     
   # Upload file from computer 
   def open_file_dialog(self):
-    file_name, _ = QFileDialog.getOpenFileName(
-            self,
-            "Select File",
-            "",
-            "All Files (*);;Text Files (*.txt);;Image Files (*.png *.jpg *.jpeg)"
-        )
-    if file_name:
-        self.file_path_label.setText(f"Selected file: {file_name}")
-        self.send_message()
-        
+    """Open File path from computer device"""
+    try:
+      file_name, _ = QFileDialog.getOpenFileName(
+              self,
+              "Select File",
+              "",
+              "All Files (*);;Text Files (*.txt);;Image Files (*.png *.jpg *.jpeg)"
+          )
+      if file_name:
+          self.file_path_label.setText(f"Selected file: {file_name}")
+          self.send_message()
+    
+    except FileNotFoundError as e:
+      print(f"Error file unknown {str(e)}")
+      
   # Response model chatBot
   def response_chatbot(self, message) -> str:
-    message = message.lower()
-    if "hello" in message or "hi" in message:
-        return "hello 👋 user. How can I help you?"
-    elif "what is norton university and when was it founded" in message:
-        return '''
-            Norton University (NU) is a private university located in Phnom Penh, Cambodia.\n
-            It was established in December 1996 by Professor Chan Sok Khieng and officially recognized as a university in September 19.
-        '''
-    elif "what is its vision and mission at norton school" in message:
-        return '''
-            Answer:\n
-            Vision: To become an internationally respected higher education institution, producing\n
-            competitive professionals who contribute to Cambodia’s social and economic development and the international community ().\n
-            Mission: Norton aims to develop graduates who are entrepreneurial, professionally competitive, creative thinkers, value higher\n
-            learning, and promote peace, justice, and development ().
-        '''
     
-    elif "who is founder of norton university" in message:
-      return '''Norton University is the first private university in Cambodia, established on December 2, 1996 by Professor Chan'''
-    
-    
-    else:
-        return '''what is its vision and mission at norton school'''
-    
+    try:
+      message == message.lower()
+      
+      if "hello" in message or "hi" in message:
+          return "hello 👋 user. How can I help you?"
+      elif "what is norton university and when was it founded" in message:
+          return '''
+              Norton University (NU) is a private university located in Phnom Penh, Cambodia.\n
+              It was established in December 1996 by Professor Chan Sok Khieng and officially recognized as a university in September 19.
+          '''
+      elif "what is its vision and mission at norton school" in message:
+          return '''
+              Answer:\n
+              Vision: To become an internationally respected higher education institution, producing\n
+              competitive professionals who contribute to Cambodia’s social and economic development and the international community ().\n
+              Mission: Norton aims to develop graduates who are entrepreneurial, professionally competitive, creative thinkers, value higher\n
+              learning, and promote peace, justice, and development ().
+          '''
+      
+      elif "who is founder of norton university" in message:
+        return '''Norton University is the first private university in Cambodia, established on December 2, 1996 by Professor Chan'''
+      
+      
+      else:
+          return '''what is its vision and mission at norton school'''
+        
+    except Exception as e:
+      print(f"Error occure {str(e)}")
     
   def send_message(self):
     user_message = self.input_text.text()
-    bot_response = self.response_chatbot(user_message)
-    self.output_display.append(f"<div align='left';><b>{user_message}</b></div>")
-    self.output_display.append(f"<div align='left'; style='color: blue';><b>Bot: {bot_response}</b></div>")
-    self.input_text.clear()
-
+    if not user_message:
+      return
+    
+    else: 
+      self.send_button.setEnabled(True)
+      
+      bot_response = self.response_chatbot(user_message)
+      self.output_display.append(f"<div align='left';><b>{user_message}</b></div>")
+      self.output_display.append(f"<div align='left'; style='color: blue';><b>Bot: {bot_response}</b></div>")
+      self.input_text.clear()
+  
 # Main function     
 def main():
   app = QApplication(sys.argv)

@@ -2856,18 +2856,18 @@ class KhmerEnglishDictionaryApp(QMainWindow):
     # Use standard Qt styling with Khmer font
     self.setStyleSheet(f"""
                        QMainWindow {{
-          background-color: #f5f5f5;
+          background-color: white;
           font-family: '{self.font_manager.get_font_family()}';
           font-size: {self.font_manager.font_size}pt;
         }}
         QTabWidget::pane {{
           border: 1px solid #c0c0c0;
-          background-color: white;
+          background-color: #white;
           font-family: '{self.font_manager.get_font_family()}';
           font_size: {self.font_manager.font_size}pt;
         }}
         QTabBar::tab {{
-          background-color: #e0e0e0;
+          background-color: #0081cf;
           padding: 8px 16px;
           margin-right: 2px;
           font-family: '{self.font_manager.get_font_family()}';
