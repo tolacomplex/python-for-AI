@@ -93,11 +93,67 @@ class ChatbotApp(QMainWindow):
           '''
       
       elif "who is founder of norton university" in message:
-        return '''Norton University is the first private university in Cambodia, established on December 2, 1996 by Professor Chan'''
+        return '''Norton University is the first private university in Cambodia, established on December 2, 1996 by Professor Chan.'''
       
+      elif "what faculties does Norton University offer" in message:
+        return '''
+        Norton University offers various faculties, including:\n
+        • Faculty of Engineering\n
+        • Faculty of Information Technology\n
+        • Faculty of Business and Economics\n
+        • Faculty of Law and Social Sciences
+        • Graduate School (Master’s programs)\n
+      '''
       
+      elif "what programs does Norton University provide" in message:
+        return '''
+        Norton offers Bachelor’s, Master’s, and short-term training programs in areas such as Computer Science, Civil Engineering,\n Architecture, Business Administration, Finance, and English.
+      '''
+      
+      elif "what language is used for teaching" in message:
+        return '''
+        Courses are taught in both Khmer and English, depending on the program and faculty.
+      '''
+      
+      elif "how long is a Bachelor’s degree at Norton University" in message:
+        return '''
+        Most Bachelor’s degrees take 4 years to complete.
+      '''
+      
+      elif "what facilities are available at Norton University" in message:
+        return '''
+        The university provides:\n
+        • Computer labs\n
+        • Engineering labs\n
+        • Library\n
+        • Wi-Fi access\n
+        • Canteen\n
+        • Sports area\n
+        • Career center\n
+      '''
+      
+      elif "are there scholarships available at Norton University" in message:
+        return '''
+        Yes, Norton University offers scholarships to outstanding students and those in financial need, depending on their academic\n
+        performance and entrance exam results.
+      '''
+      
+      elif "how much is the tuition fee at Norton University" in message:
+        return '''
+        Tuition fees vary by faculty. On average, it ranges from $400 to $800 per year depending on the major and study mode\n (morning/evening).
+      '''
+      
+      elif "can I study in the evening or on weekends" in message:
+        return '''
+        Yes, Norton University offers flexible class schedules including evening and weekend classes, suitable for working students.
+      '''
+      
+      elif "are there English programs or training at Norton University" in message:
+        return '''
+        Yes, Norton has English foundation programs and professional English training courses for students who want to improve their language skills.
+      '''
       else:
-          return '''what is its vision and mission at norton school'''
+          return '''Sorry 🙏 you can ask anything related Norton University.'''
         
     except Exception as e:
       print(f"Error occure {str(e)}")
