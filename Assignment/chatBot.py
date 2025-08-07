@@ -11,6 +11,7 @@ class DatabaseManager:
     """ Manages all database operations for the chatbot """
     def __init__(self, db_path='chatbot.db'):
         """Initializes the database connection and sets up the table."""
+        
         self.db_path = db_path
         self.database_data = {
             "hello": "Hello! 👋 How can I help you today?",
@@ -20,10 +21,6 @@ class DatabaseManager:
                 "It was established in December 1996 and officially recognized in September 1997."
             ),
             "what is its vision and mission at norton school": (
-                "Vision: To become an internationally respected higher education institution.\n"
-                "Mission: To develop graduates who are entrepreneurial, professionally competitive, and creative."
-            ),
-            "can you tell me about norton university": (
                 "Vision: To become an internationally respected higher education institution.\n"
                 "Mission: To develop graduates who are entrepreneurial, professionally competitive, and creative."
             ),
@@ -63,6 +60,13 @@ class DatabaseManager:
             "are there english programs or training at norton university": (
                 "Yes, Norton provides English foundation and professional training courses."
             ),
+            "can you tell me about norton university": (
+                "Norton University (NU) is one of the first private universities in Cambodia, established on December\n 2, 1996 by Professor Chan Sok Khieng, who still serves as its rector."
+                "NU offers:\n"
+                "• Bachelor’s Degrees (typically 4 years)\n"
+                "• Master’s Degrees\n"
+                "• Short-term training programs\n"
+            )
         }
         self.setup_database()
 
@@ -109,10 +113,7 @@ class DatabaseManager:
 
 
 class ChatbotApp(QMainWindow):
-    """
-    A PyQt6-based chatbot application assistant for Norton University.
-    This version uses a dedicated class for database operations.
-    """
+    
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Norton Mini Chatbot Assistant")
@@ -236,7 +237,7 @@ class ChatbotApp(QMainWindow):
 
         # Display user message
         self.output_display.append(f"""
-            <div style='text-align: right; margin: 5px; color: #845ec2; font-weight: bold;'>
+            <div style='text-align: left; margin: 5px; color: #845ec2; font-weight: bold;'>
                 {user_message}
             </div>
         """)
