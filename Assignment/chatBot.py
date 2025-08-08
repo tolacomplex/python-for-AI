@@ -9,6 +9,7 @@ from PyQt6.QtCore import Qt
 
 class DatabaseManager:
     """ Manages all database operations for the chatbot """
+    
     def __init__(self, db_path='chatbot.db'):
         """Initializes the database connection and sets up the table."""
         
@@ -83,8 +84,8 @@ class DatabaseManager:
                 """)
                 
                 cursor.execute("SELECT COUNT(*) FROM database_data")
+                
                 if cursor.fetchone()[0] == 0:
-                    # FIX: Corrected dictionary name from self.knowledge_base_data to self.database_data
                     cursor.executemany("INSERT INTO database_data VALUES (?, ?)", self.database_data.items())
                     conn.commit()
 
@@ -116,17 +117,17 @@ class ChatbotApp(QMainWindow):
     
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Norton Mini Chatbot Assistant")
+        self.setWindowTitle("Norton Mini Chatbot")
         self.setGeometry(100, 100, 500, 700)
-        self.setStyleSheet("background-color: #f0f4f8;")
+        self.setStyleSheet("background-color: black;")
         
         # Instantiate the new DatabaseManager class
         self.db_manager = DatabaseManager()
 
         page_widget = QWidget()
-        page_widget.setStyleSheet("background-color: black")
+        page_widget.setStyleSheet("background-color: white")
         self.setCentralWidget(page_widget)
-        # FIX: Removed page_widget.setStyleSheet("background-color: black") for consistency
+    
         layout = QVBoxLayout(page_widget)
 
         self.output_display = QTextEdit()
